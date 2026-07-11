@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#061316" />
+  <title>කොළඹ Run - Free Online Game</title>
+  <link rel="icon" type="image/png" href="assets/icon2.png">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="gameRoot" class="game-root">
+    <canvas id="gameCanvas" width="1600" height="900" aria-label="Lanka Meme Run"></canvas>
+
+    
+    <section id="rotateScreen" class="rotate-screen" aria-hidden="true">
+      <div class="rotation-device-frame">
+        <div class="rotation-icon">↻</div>
+        <span>LANDSCAPE REQUIRED</span>
+        <h2>ROTATE YOUR PHONE</h2>
+        <p>This run is designed for landscape play.</p>
+        <div class="waiting-pill">WAITING FOR ROTATION</div>
+      </div>
+    </section>
+
+
+
+    <div class="game-ui">
+      
+      <header class="arcade-hud">
+        <div class="hud-chassis status-chassis">
+          <div class="chassis-accent cyan-accent"></div>
+
+          <div class="hud-health-dots" id="healthDots">
+            <i></i><i></i><i></i><i></i>
+          </div>
+
+          <span id="modeText" class="hud-mode-text">MEDIUM</span>
+          <span class="hud-separator"></span>
+          <strong><b id="distance">0</b> m</strong>
+          <span class="hud-separator"></span>
+          <strong class="speed-value"><b id="speed">0</b> km/h</strong>
+
+          <span id="healthHearts" class="hidden">♥ ♥ ♥</span>
+        </div>
+
+        <div class="hud-chassis score-chassis">
+          <div class="chassis-accent purple-accent"></div>
+          <strong id="score">000000</strong>
+          <span>SCORE / <b id="hudComboText">x1.0 COMBO</b></span>
+        </div>
+
+        <div class="hud-chassis utility-chassis">
+          <div class="chassis-accent green-accent"></div>
+          <strong class="hud-notes">Rs. <b id="notes">0</b></strong>
+
+          <div class="hud-utility-buttons">
+            <button id="musicBtn" class="arcade-icon-btn" title="Music" aria-label="Music">M</button>
+            <button id="fullscreenBtn" class="arcade-icon-btn" title="Fullscreen" aria-label="Fullscreen">F</button>
+            <button id="pauseBtn" class="arcade-icon-btn" title="Pause" aria-label="Pause">Ⅱ</button>
+          </div>
+        </div>
+      </header>
+
+      <div id="powerBar" class="active-chip power-active-chip hidden">
+        <span id="powerIcon" class="hidden">⚡</span>
+        <strong id="powerName">SHIELD ACTIVE</strong>
+        <span id="powerTimeText">08.4s</span>
+        <div class="hidden">
+          <div id="powerFill" class="power-fill"></div>
+        </div>
+      </div>
+
+      <aside class="mission-chassis">
+        <div class="chassis-accent green-accent"></div>
+        <span>MISSION</span>
+        <strong id="missionText">REACH 750 M</strong>
+        <div class="mission-segment-track">
+          <div id="missionProgress" class="mission-segment-fill"></div>
+        </div>
+      </aside>
+
+
+
+
+      
+      <aside id="enemyPanel" class="enemy-tactical hidden">
+        <div class="enemy-accent-line"></div>
+
+        <div class="enemy-panel-head">
+          <span>ENEMY LOCK</span>
+          <b id="enemyAmmoText">4 SHOTS</b>
+        </div>
+
+        <strong id="enemyStateText">AIMING</strong>
+
+        <div class="enemy-ammo-segments" id="enemyAmmoSegments">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+
+        <div class="danger-track">
+          <div id="dangerFill" class="danger-fill"></div>
+        </div>
+
+        <div id="dodgeHint" class="dodge-hint">HIGH SHOT / SLIDE NOW</div>
+      </aside>
+
+
+      <div id="roadEvent" class="road-event glass">MONSOON RAIN</div>
+
+      <div id="comboBadge" class="combo-badge">COMBO x1</div>
+      <div id="memePopup" class="meme-popup"></div>
+      <div id="obstacleJumpWarning" class="obstacle-jump-warning">DOUBLE JUMP!</div>
+      <div id="enemyWarning" class="enemy-warning">⚠ ENEMY FIRING</div>
+
+      <!-- HEADPHONE WARNING -->
+<section id="headphoneWarning" class="headphone-warning-screen">
+
+  <div class="headphone-warning-box">
+
+    <div class="headphone-icon">
+      🎧
+    </div>
+
+    <span class="headphone-kicker">
+      AUDIO RECOMMENDED
+    </span>
+
+    <h2>USE HEADPHONES</h2>
+
+    <p>
+      For the best KOLAMBA RUN experience, use headphones or a headset.
+    </p>
+
+    <button
+      id="headphoneOkBtn"
+      class="headphone-ok-btn"
+      type="button"
+    >
+      OK, LET'S RUN
+    </button>
+
+  </div>
+
+</section>
+
+      
+      <section id="startScreen" class="screen-layer start-screen premium-main-menu">
+
+        <div class="premium-menu-panel">
+          <div class="panel-accent-line"></div>
+
+          <h1 class="premium-game-title">
+            <span>කොළඹ</span>
+            <b>RUN</b>
+          </h1>
+
+          <p class="premium-tagline">Don't take life too seriously, just chill and enjoy the chaos.</p>
+
+          <button id="startBtn" class="premium-primary-btn" type="button">
+            <span>PLAY NOW</span>
+          </button>
+
+          <button id="difficultyBtn" class="premium-secondary-btn" type="button">
+            <span>DIFFICULTY</span>
+            <small id="difficultyQuickLabel">MEDIUM</small>
+          </button>
+
+          <button id="creditsBtn" class="premium-secondary-btn" type="button">
+            <span>CREDITS</span>
+          </button>
+
+          <div class="menu-meta">
+            <span>BEST <b id="menuBestScore">000000</b></span>
+            <span>/</span>
+            <span>v1.0</span>
+          </div>
+        </div>
+
+        <div class="landscape-ready-badge">LANDSCAPE READY</div>
+      </section>
+
+      <section id="difficultyScreen" class="screen-layer hidden difficulty-screen">
+        <div class="difficulty-shell">
+          <div class="panel-accent-line reward-line"></div>
+
+          <div class="difficulty-copy">
+            <span>SELECT SURVIVAL PROFILE</span>
+            <h2>CHOOSE YOUR CHAOS</h2>
+            <p>Each mode changes health, traffic pressure, enemy timing and score potential.</p>
+          </div>
+
+          <div class="difficulty-grid premium-difficulty-grid">
+            <button class="difficulty-card easy-card" data-difficulty="easy" type="button">
+              <div class="difficulty-topline"></div>
+              <div class="difficulty-head">
+                <strong>EASY</strong>
+                <span>SELECT</span>
+              </div>
+              <div class="heart-segments easy-hearts">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <b>4 HEARTS</b>
+              <small>1.0× SCORE</small>
+            </button>
+
+            <button class="difficulty-card medium-card active" data-difficulty="medium" type="button">
+              <div class="difficulty-topline"></div>
+              <div class="difficulty-head">
+                <strong>MEDIUM</strong>
+                <span>ACTIVE</span>
+              </div>
+              <div class="heart-segments medium-hearts">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <b>3 HEARTS</b>
+              <small>1.35× SCORE</small>
+            </button>
+
+            <button class="difficulty-card hard-card" data-difficulty="hard" type="button">
+              <div class="difficulty-topline"></div>
+              <div class="difficulty-head">
+                <strong>HARD</strong>
+                <span>SELECT</span>
+              </div>
+              <div class="heart-segments hard-hearts">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <b>2 HEARTS</b>
+              <small>2.0× SCORE</small>
+            </button>
+          </div>
+
+          <div class="difficulty-actions">
+            <button id="startSelectedModeBtn" class="premium-primary-btn reward-btn" type="button">
+              START MEDIUM
+            </button>
+            <button id="backFromDifficultyBtn" class="premium-ghost-btn" type="button">
+              BACK
+            </button>
+          </div>
+        </div>
+      </section>
+
+      
+      <section id="creditsScreen" class="screen-layer hidden credits-screen">
+  <div class="credits-shell">
+    <div class="panel-accent-line"></div>
+
+    <span class="credits-kicker">CREDITS</span>
+
+<h2>කොළඹ RUN</h2>
+
+<div class="credits-social-actions">
+
+  <a
+    id="discordBtn"
+    class="community-link discord-community-btn"
+    href="YOUR_DISCORD_LINK_HERE"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <span class="community-icon">D</span>
+
+    <span class="community-text">
+      <small>JOIN THE COMMUNITY</small>
+      <strong>COMING SOON</strong>
+    </span>
+  </a>
+
+  <a
+    id="githubBtn"
+    class="community-link github-community-btn"
+    href="https://github.com/D3NUW4NXD"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <span class="community-icon">G</span>
+
+    <span class="community-text">
+      <small>VIEW SOURCE CODE</small>
+      <strong>GITHUB</strong>
+    </span>
+  </a>
+
+</div>
+
+<div class="developed-by">
+  <span>DEVELOPED BY</span>
+  <strong>3noX</strong>
+</div>
+
+<button
+  id="closeCreditsBtn"
+  class="premium-secondary-btn credits-back-btn"
+  type="button"
+>
+  BACK TO MENU
+</button>
+
+      
+      <section id="pauseScreen" class="screen-layer hidden pause-screen">
+        <div class="pause-shell">
+          <div class="panel-accent-line purple-line"></div>
+
+          <span class="pause-kicker">RUN STATE</span>
+          <h2>PAUSED</h2>
+
+          <div class="pause-run-meta">
+            DISTANCE <b id="pauseDistance">0 m</b>
+            <span>/</span>
+            SCORE <b id="pauseScore">000000</b>
+          </div>
+
+          <button id="resumeBtn" class="premium-primary-btn" type="button">RESUME</button>
+          <button id="restartFromPauseBtn" class="premium-secondary-btn" type="button">RESTART RUN</button>
+          <button id="pauseHomeBtn" class="premium-secondary-btn" type="button">MAIN MENU</button>
+
+          <div class="pause-utility-row">
+            <button id="pauseMusicBtn" type="button">MUSIC ON</button>
+            <button id="pauseSfxBtn" type="button">SFX ON</button>
+          </div>
+        </div>
+      </section>
+
+      
+      <section id="gameOverScreen" class="screen-layer hidden gameover-screen">
+        <div class="gameover-shell">
+          <div class="panel-accent-line danger-line"></div>
+
+          <span class="gameover-kicker">RUN COMPLETE</span>
+          <h2>BRUHH</h2>
+
+          <div class="run-summary-grid">
+            <div class="summary-card cyan-summary">
+              <span>SCORE</span>
+              <strong id="finalScore">000000</strong>
+            </div>
+
+            <div class="summary-card green-summary">
+              <span>DISTANCE</span>
+              <strong><b id="finalDistance">0</b> m</strong>
+            </div>
+
+            <div class="summary-card amber-summary">
+              <span>NOTES</span>
+              <strong>Rs. <b id="finalNotes">0</b></strong>
+            </div>
+
+            <div class="summary-card purple-summary">
+              <span>BEST COMBO</span>
+              <strong>x<b id="finalCombo">1</b></strong>
+            </div>
+          </div>
+
+          <div class="gameover-actions">
+            <button id="restartBtn" class="premium-primary-btn" type="button">RUN AGAIN</button>
+            <button id="homeBtn" class="premium-secondary-btn" type="button">MAIN MENU</button>
+            <div id="newBestBadge" class="new-best-badge hidden">NEW BEST</div>
+          </div>
+
+          <div class="hidden" aria-hidden="true">
+            <span id="bestScore">0</span>
+            <span id="gameOverMeme">AIYOOO!</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="mobile-controls" aria-label="Mobile game controls">
+        <button id="jumpBtn" class="mobile-action jump-action" aria-label="Jump">
+          <span class="mobile-action-icon">↑</span>
+          <strong>JUMP</strong>
+        </button>
+
+        <button id="slideBtn" class="mobile-action slide-action" aria-label="Slide">
+          <span class="mobile-action-icon">↓</span>
+          <strong>SLIDE</strong>
+        </button>
+      </div>
+
+      <div class="mobile-hint">
+        <span>LEFT</span> JUMP
+        <i></i>
+        <span>RIGHT</span> SLIDE
+      </div>
+
+    </div>
+
+    <audio id="bgMusic" loop preload="auto">
+      <source src="assets/bgm.mp3" type="audio/mpeg" />
+    </audio>
+
+    <audio id="busHornSfx" preload="auto" src="assets/bus_horn.mp3"></audio>
+    <audio id="ct100Sfx" preload="auto" src="assets/ct100_bike.mp3"></audio>
+    <audio id="tukTukSfx" preload="auto" src="assets/tuk_tuk.mp3"></audio>
+    <audio id="lorrySfx" preload="auto" src="assets/lorry.mp3"></audio>
+    <audio id="enemyFireSfx" preload="auto" src="assets/enemy_fire.mp3"></audio>
+    <audio id="ammoYakoSfx" preload="auto" src="assets/ammo_yako.mp3"></audio>
+    <audio id="ammoOutSfx" preload="auto" src="assets/ammo_out.mp3"></audio>
+    <audio id="notePickupSfx" preload="auto" src="assets/pickup.mp3"></audio>
+    <audio id="warningSfx" preload="auto" src="assets/warning.mp3"></audio>
+    <audio id="playerHitSfx" preload="auto" src="assets/player_hit.mp3"></audio>
+    <audio id="nearMissSfx" preload="auto" src="assets/near_miss.mp3"></audio>
+    <audio id="heartPickupSfx" preload="auto" src="assets/pickup.mp3"></audio>
+    <audio id="powerPickupSfx" preload="auto" src="assets/picker.mp3"></audio>
+
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
